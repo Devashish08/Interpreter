@@ -73,3 +73,11 @@ func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 // 3. Program is the root node containing all statements
 // 4. Each node holds its token for error reporting and debugging
 // 5. Marker methods (statementNode/expressionNode) help with type safety
+
+type ReturnStatement struct {
+	Token       token.Token // The 'return' token
+	ReturnValue Expression  // The value being returned
+}
+
+func (rs *ReturnStatement) statementNode()       { /*...*/ }
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
