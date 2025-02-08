@@ -1,7 +1,14 @@
+// Package lexer implements a lexical analyzer for processing source code into tokens.
+
 package lexer
 
 import "lang/token"
 
+// Lexer represents the lexical analyzer with the following fields:
+//   - input: the source code string to be tokenized
+//   - position: current position in input (points to current char)
+//   - readPosition: current reading position in input (after current char)
+//   - ch: current char under examination
 type Lexer struct {
 	input        string
 	position     int
@@ -9,16 +16,15 @@ type Lexer struct {
 	ch           byte
 }
 
+// New creates and initializes a new Lexer with the given input string
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
-	l.readChar()
+	l.readChar() // Initialize by reading the first character
 	return l
 }
 
-// NextToken is a method on the Lexer struct that returns the next token in the input
-// and advances the position of the input to the next token.
-// the purpose of the readChar function is to give us the next character and advance our position in the input string.
-
+// readChar advances the lexer's position in the input and updates the current character.
+// Sets ch to 0 (NULL) when reaching end of input.
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -30,6 +36,13 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+// NextToken identifies and returns the next token from the input.
+// This is the main tokenization function that handles:
+// - Operators (+, -, *, /, <, >, =)
+// - Delimiters (,;(){}[])
+// - Identifiers (variables, keywords)
+// - Numbers (integers)
+// - Two-character tokens (==, !=)
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -85,7 +98,6 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
-			// tok.Literal, tok.Type = l.readNumber()
 			tok.Type = token.INT
 			tok.Literal = l.readNumber()
 			return tok
@@ -98,10 +110,14 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
+// Helper functions:
+
+// newToken creates a Token with the given type and character
 func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
+// readIdentifier reads an identifier from input (letters/underscore)
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
@@ -110,126 +126,19 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
+// isLetter checks if character is a letter, underscore, ! or ?
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_' || ch == '!' || ch == '?'
 }
 
+// skipWhitespace advances past any whitespace characters
 func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
 }
 
-// func (l *Lexer) readNumber() (string, token.TokenType) {
-// 	position := l.position
-
-// 	if l.ch == '0' {
-// 		return l.readPrefixedNumber(position)
-// 	}
-
-// 	l.readIntegerPart()
-
-// 	if l.ch == '.' {
-// 		return l.readFloat(position)
-// 	}
-
-// 	return l.input[position:l.position], token.INT
-// }
-
-// func (l *Lexer) readPrefixedNumber(position int) (string, token.TokenType) {
-// 	l.readChar()
-// 	if l.ch == 'x' || l.ch == 'X' {
-// 		return l.readHexNumber()
-// 	} else if l.ch == 'o' || l.ch == 'O' {
-// 		return l.readOctalNumber()
-// 	}
-// 	l.resetPosition(position)
-// 	return "", token.ILLEGAL
-// }
-
-// func (l *Lexer) readHexNumber() (string, token.TokenType) {
-// 	l.readChar()
-// 	start := l.position
-// 	hasDigits := false
-
-// 	for isHexDigit(l.ch) {
-// 		hasDigits = true
-// 		l.readChar()
-// 	}
-
-// 	if !hasDigits {
-// 		return "", token.ILLEGAL
-// 	}
-
-// 	literal := l.input[start:l.position]
-// 	// Check all chars are valid hex
-// 	for _, ch := range literal {
-// 		if !isHexDigit(byte(ch)) {
-// 			return "", token.ILLEGAL
-// 		}
-// 	}
-
-// 	return literal, token.HEX
-// }
-
-// func (l *Lexer) readOctalNumber() (string, token.TokenType) {
-// 	l.readChar()
-// 	start := l.position
-// 	hasDigits := false
-
-// 	for isOctalDigit(l.ch) {
-// 		hasDigits = true
-// 		l.readChar()
-// 	}
-
-// 	if !hasDigits {
-// 		return "", token.ILLEGAL
-// 	}
-
-// 	literal := l.input[start:l.position]
-// 	// Check all chars are valid octal
-// 	for _, ch := range literal {
-// 		if !isOctalDigit(byte(ch)) {
-// 			return "", token.ILLEGAL
-// 		}
-// 	}
-
-// 	return literal, token.OCTAL
-// }
-
-// func (l *Lexer) resetPosition(position int) {
-// 	l.position = position
-// 	l.readPosition = position + 1
-// 	l.ch = l.input[position]
-// }
-
-// func (l *Lexer) readIntegerPart() {
-// 	for isDigit(l.ch) {
-// 		l.readChar()
-// 	}
-// }
-
-// func (l *Lexer) readFloat(position int) (string, token.TokenType) {
-// 	l.readChar()
-// 	hasDecimals := false
-// 	for isDigit(l.ch) {
-// 		hasDecimals = true
-// 		l.readChar()
-// 	}
-// 	if hasDecimals {
-// 		return l.input[position:l.position], token.FLOAT
-// 	}
-// 	return l.input[position:l.position], token.INT
-// }
-
-// func isHexDigit(ch byte) bool {
-// 	return isDigit(ch) || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F')
-// }
-
-// func isOctalDigit(ch byte) bool {
-// 	return '0' <= ch && ch <= '7'
-// }
-
+// readNumber reads a numeric sequence from input
 func (l *Lexer) readNumber() string {
 	position := l.position
 	for isDigit(l.ch) {
@@ -238,10 +147,12 @@ func (l *Lexer) readNumber() string {
 	return l.input[position:l.position]
 }
 
+// isDigit checks if character is numeric (0-9)
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
 
+// peekChar looks at the next character without advancing position
 func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0
@@ -249,3 +160,9 @@ func (l *Lexer) peekChar() byte {
 		return l.input[l.readPosition]
 	}
 }
+
+// Note: There are commented-out functions for handling:
+// - Hexadecimal numbers (0x...)
+// - Octal numbers (0o...)
+// - Floating point numbers
+// These can be uncommented and implemented for extended numeric support
