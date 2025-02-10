@@ -12,8 +12,9 @@ const (
 	EOF     = "EOF"
 
 	// Identifiers + literals
-	IDENT = "IDENT" // add, foobar, x, y, ...
-	INT   = "INT"   // 123456
+	IDENT  = "IDENT"  // add, foobar, x, y, ...
+	INT    = "INT"    // 123456
+	STRING = "STRING" // "foobar"
 	// FLOAT = "FLOAT" // 123.456
 	// HEX   = "HEX"   // 0x1234
 	// OCTAL = "OCTAL" // 01234
@@ -31,14 +32,17 @@ const (
 	// Delimiters
 	COMMA     = ","
 	SEMICOLON = ";"
+	COLON     = ":"
 
 	EQ     = "=="
 	NOT_EQ = "!="
 
-	LPAREN = "("
-	RPAREN = ")"
-	LBRACE = "{"
-	RBRACE = "}"
+	LPAREN   = "("
+	RPAREN   = ")"
+	LBRACE   = "{"
+	RBRACE   = "}"
+	LBRACKET = "["
+	RBRACKET = "]"
 
 	// Keywords
 	FUNCTION = "FUNCTION"
