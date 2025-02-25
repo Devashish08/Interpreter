@@ -1,3 +1,30 @@
+/*
+Package evaluator implements the evaluation logic for our interpreter.
+
+The evaluator takes an Abstract Syntax Tree (AST) produced by the parser and evaluates it
+to produce values. It implements:
+
+  - Expression evaluation (arithmetic, logical, comparison)
+  - Statement execution (let, return, if/else)
+  - Function application
+  - Built-in function handling
+  - Error handling and reporting
+
+Key types and functions:
+
+  - Eval: The main evaluation function that handles all node types
+  - evalProgram: Evaluates a complete program node
+  - evalBlockStatement: Handles blocks of statements
+  - evalPrefixExpression: Handles prefix operators (!, -)
+  - evalInfixExpression: Handles infix operators (+, -, *, /, ==, etc.)
+  - evalIfExpression: Implements conditional logic
+  - evalIdentifier: Handles variable lookup
+  - evalFunctionLiteral: Creates function objects
+  - applyFunction: Handles function calls
+
+Error handling is done through the object.Error type, with detailed error messages
+to help users identify and fix issues in their code.
+*/
 package evaluator
 
 import (
