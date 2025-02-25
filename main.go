@@ -66,21 +66,22 @@ func runFile(path string) {
 	}
 
 	evaluated := evaluator.Eval(program, env)
-	if evaluated != nil {
-		fmt.Println(evaluated.Inspect())
+	if evaluated == nil {
+		fmt.Println("Error: evaluation returned nil")
+		os.Exit(1)
+	}
+
+	if evaluated.Type() == object.ERROR_OBJ {
+		fmt.Printf("Runtime error: %s\n", evaluated.Inspect())
+		os.Exit(1)
 	}
 }
 
 func printHelp() {
 	fmt.Println("Usage:")
-	fmt.Println("  interpreter [command] [arguments]")
-	fmt.Println("\nCommands:")
-	fmt.Println("  run <file>     Execute a source file")
-	fmt.Println("  repl           Start the REPL (interactive mode)")
-	fmt.Println("  help           Show this help message")
-	fmt.Println("\nExamples:")
-	fmt.Println("  interpreter run examples/fibonacci.monkey")
-	fmt.Println("  interpreter repl")
+	fmt.Println("  interpreter run <filename>  - Execute a Monkey program file")
+	fmt.Println("  interpreter repl           - Start the interactive REPL")
+	fmt.Println("  interpreter help           - Show this help message")
 }
 
 func printParserErrors(errors []string) {

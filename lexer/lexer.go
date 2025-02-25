@@ -68,6 +68,8 @@ func (l *Lexer) NextToken() token.Token {
 	case '"':
 		tok.Type = token.STRING
 		tok.Literal = l.readString()
+		l.readChar() // Skip the closing quote
+		return tok
 	case '[':
 		tok = newToken(token.LBRACKET, l.ch)
 	case ']':
