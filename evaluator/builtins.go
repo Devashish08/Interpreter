@@ -2,7 +2,8 @@ package evaluator
 
 import (
 	"fmt"
-	"lang/object"
+
+	"github.com/Devashish08/InterPreter-Compiler/object"
 )
 
 var builtins = map[string]*object.Builtin{

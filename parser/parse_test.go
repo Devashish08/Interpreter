@@ -2,9 +2,10 @@ package parser
 
 import (
 	"fmt"
-	"lang/ast"
-	"lang/lexer"
 	"testing"
+
+	"github.com/Devashish08/InterPreter-Compiler/ast"
+	"github.com/Devashish08/InterPreter-Compiler/lexer"
 )
 
 func TestLetStatements(t *testing.T) {

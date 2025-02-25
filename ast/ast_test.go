@@ -1,8 +1,9 @@
 package ast
 
 import (
-	"lang/token"
 	"testing"
+
+	"github.com/Devashish08/InterPreter-Compiler/token"
 )
 
 func TestString(t *testing.T) {

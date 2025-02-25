@@ -2,10 +2,11 @@ package parser
 
 import (
 	"fmt"
-	"lang/ast"
-	"lang/lexer"
-	"lang/token"
 	"strconv"
+
+	"github.com/Devashish08/InterPreter-Compiler/ast"
+	"github.com/Devashish08/InterPreter-Compiler/lexer"
+	"github.com/Devashish08/InterPreter-Compiler/token"
 )
 
 const (
