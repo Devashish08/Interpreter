@@ -1,3 +1,33 @@
+/*
+Package object implements the object system for our interpreter.
+
+This package defines all the types that can exist in our interpreted language,
+including:
+
+  - Basic types (Integer, Boolean, String)
+  - Composite types (Array, Hash)
+  - Functions (Function, Builtin)
+  - Special types (Null, Return, Error)
+
+Key interfaces and types:
+
+  - Object: The base interface for all values
+  - Hashable: Interface for types that can be hash keys
+  - Environment: Stores variable bindings
+  - Function: Represents user-defined functions
+  - Builtin: Represents built-in functions
+  - Array: Represents array literals
+  - Hash: Represents hash literals
+
+Each type implements:
+
+  - Type() ObjectType: Returns the type identifier
+  - Inspect() string: Returns a string representation
+  - HashKey() (for hashable types): Generates a hash key
+
+The object system is central to the interpreter, handling all runtime values
+and their operations.
+*/
 package object
 
 import (

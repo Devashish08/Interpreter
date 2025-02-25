@@ -1,3 +1,29 @@
+/*
+Package parser implements a recursive descent parser for our programming language.
+
+The parser takes a sequence of tokens from the lexer and constructs an Abstract Syntax
+Tree (AST) representation of the program. It implements:
+
+  - Top-down recursive descent parsing
+  - Pratt parsing for expressions
+  - Operator precedence handling
+  - Error tracking and reporting
+
+Key components:
+
+  - Parser: The main parser type that holds parsing state
+  - ParseProgram: Entry point for parsing a complete program
+  - registerPrefix/registerInfix: Register parsing functions for operators
+  - parseExpression: Core of the Pratt parser
+  - parsePrefixExpression: Handles prefix operators
+  - parseInfixExpression: Handles infix operators
+  - parseCallExpression: Handles function calls
+  - parseIfExpression: Handles if/else statements
+  - parseFunctionLiteral: Handles function definitions
+
+Error handling includes tracking of parsing errors and providing detailed error
+messages to help users identify syntax issues in their code.
+*/
 package parser
 
 import (
@@ -79,7 +105,6 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
 	p.registerInfix(token.LT, p.parseInfixExpression)
 	p.registerInfix(token.GT, p.parseInfixExpression)
-
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
 

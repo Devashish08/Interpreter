@@ -1,3 +1,32 @@
+/*
+Package lexer implements lexical analysis for our programming language.
+
+The lexer takes source code as input and breaks it down into a sequence of tokens.
+It handles:
+
+  - Keywords and identifiers
+  - Numbers and strings
+  - Operators and delimiters
+  - Comments and whitespace
+
+Key features:
+
+  - Single-pass lexical analysis
+  - Support for multiple token types
+  - Error detection for invalid characters
+  - Position tracking for error reporting
+
+The main type is Lexer, which provides:
+
+  - New: Creates a new lexer instance
+  - NextToken: Returns the next token in the input
+  - readChar: Advances the input position
+  - peekChar: Looks ahead without advancing
+  - skipWhitespace: Handles whitespace between tokens
+
+The lexer is the first phase of compilation/interpretation, feeding tokens
+to the parser for syntactic analysis.
+*/
 package lexer
 
 import "github.com/Devashish08/InterPreter-Compiler/token"
@@ -68,6 +97,8 @@ func (l *Lexer) NextToken() token.Token {
 	case '"':
 		tok.Type = token.STRING
 		tok.Literal = l.readString()
+		l.readChar() // Skip the closing quote
+		return tok
 	case '[':
 		tok = newToken(token.LBRACKET, l.ch)
 	case ']':
