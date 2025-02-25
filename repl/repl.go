@@ -6,10 +6,11 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"lang/evaluator"
-	"lang/lexer"
-	"lang/object"
-	"lang/parser"
+
+	"github.com/Devashish08/InterPreter-Compiler/evaluator"
+	"github.com/Devashish08/InterPreter-Compiler/lexer"
+	"github.com/Devashish08/InterPreter-Compiler/object"
+	"github.com/Devashish08/InterPreter-Compiler/parser"
 )
 
 // PROMPT defines the interactive prompt symbol

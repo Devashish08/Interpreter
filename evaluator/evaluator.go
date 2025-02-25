@@ -2,8 +2,9 @@ package evaluator
 
 import (
 	"fmt"
-	"lang/ast"
-	"lang/object"
+
+	"github.com/Devashish08/InterPreter-Compiler/ast"
+	"github.com/Devashish08/InterPreter-Compiler/object"
 )
 
 var (

@@ -2,7 +2,7 @@ package ast
 
 import (
 	"bytes"
-	"lang/token"
+	"github.com/Devashish08/InterPreter-Compiler/token"
 	"strings"
 )
 

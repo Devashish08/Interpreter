@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"hash/fnv"
-	"lang/ast"
 	"strings"
+
+	"github.com/Devashish08/InterPreter-Compiler/ast"
 )
 
 type BuiltinFunction func(args ...Object) Object
