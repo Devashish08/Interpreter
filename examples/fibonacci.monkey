@@ -6,3 +6,5 @@ let fibonacci = fn(x) {
 };
 
 fibonacci(10);
+
+puts(fibonacci(10));

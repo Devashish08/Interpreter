@@ -3,4 +3,4 @@ let newAdder = fn(x) {
 };
 
 let addTwo = newAdder(2);
-addTwo(5); // Returns 7
+puts(addTwo(5));
